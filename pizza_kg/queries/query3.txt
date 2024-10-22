@@ -1,0 +1,7 @@
+SELECT ?ingredient WHERE{
+  {?ingredient rdfs:subClassOf cw:SeaFood .}
+  UNION
+  {?ingredient rdfs:subClassOf cw:VegetarianIngredient .}
+  MINUS 
+  {?ingredient rdfs:subClassOf cw:VeganIngredient  .}
+}

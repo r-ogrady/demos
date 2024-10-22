@@ -1,0 +1,7 @@
+SELECT ?state ?city WHERE {
+?restaurant cw:locatedInCity ?city .
+?city cw:locatedInState ?state .
+}
+GROUP BY ?city
+HAVING (COUNT(?restaurant) > 3)
+ORDER BY ?state ?city

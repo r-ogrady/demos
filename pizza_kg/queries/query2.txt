@@ -1,0 +1,7 @@
+SELECT DISTINCT ?pizza (ROUND(?price) AS ?dollaramount) WHERE {
+  ?restaurant cw:restaurantName ?name .
+  ?restaurant cw:servesMenuItem ?pizza.
+  ?pizza cw:hasValue ?itemvalue .
+  ?itemvalue cw:amount ?price .
+  FILTER(?price>25)
+}

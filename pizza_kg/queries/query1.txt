@@ -1,0 +1,6 @@
+
+SELECT DISTINCT ?food ?price WHERE {
+  ?food cw:hasValue ?itemvalue .
+  ?itemvalue cw:amount ?price .
+  FILTER(?price<2)
+}

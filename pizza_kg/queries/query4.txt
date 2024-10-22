@@ -1,0 +1,6 @@
+SELECT ?ingredient (COUNT(?pizza) AS ?pcount) WHERE {
+?pizza cw:hasIngredient ?ingredient .
+}
+GROUP BY ?ingredient
+HAVING (COUNT(?pizza) > 50)
+ORDER BY DESC (?pcount)
