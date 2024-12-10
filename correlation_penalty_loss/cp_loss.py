@@ -29,6 +29,7 @@ class CorrelationPenaltyLoss(nn.Module):
         self.activations = {}
         self._register_hooks()
 
+    # we first need to register hooks to get the activations
     def _register_hooks(self):
         for name, module in self.model.named_modules():
             if self.layer_type == "nn.Linear":
@@ -49,13 +50,18 @@ class CorrelationPenaltyLoss(nn.Module):
         return hook
 
     def forward(self, output, desired_labels, orthogonal_labels):
+        # add our calculation to the forward pass
+        
+        # check if the activations are empty
         if self.activations is None:
             raise ValueError("Activations are none. Ensure the network has the given layer type")
 
+        # initialise the loss
         base_loss = self.base_loss_fn(output, desired_labels)
         batch_size = output.size(0)
         corr_penalty = 0.0
-
+        
+        # if the orthogonal labels are categorical, we need one-hot encoding
         if self.one_hot:
             if self.num_orthog_classes is None:
                 raise ValueError("num_orthog_classes must be specified for one-hot encoding.")
@@ -63,27 +69,28 @@ class CorrelationPenaltyLoss(nn.Module):
         else:
             orthogonal_labels = orthogonal_labels.view(batch_size, -1).float()
 
-        # Loop through the dictionary items for all layers
+        # loop through the dictionary items for all layers
         for name, activation in self.activations.items():
-            # Reshape for correlation calculation
+            # reshape for correlation calculation
             activation_flat = activation.view(batch_size, -1)
 
-            # Normalize activations and orthogonal labels
+            # normalise activations and orthogonal labels
             activation_norm = (activation_flat - activation_flat.mean(dim=0)) / (activation_flat.std(dim=0) + self.epsilon)
             orthogonal_labels_norm = (orthogonal_labels - orthogonal_labels.mean(dim=0)) / (orthogonal_labels.std(dim=0) + self.epsilon)
 
-            # Calculate correlation
+            # calculate correlation
             corr_matrix = torch.mm(activation_norm.T, orthogonal_labels_norm) / (batch_size - 1)
             corr_penalty_for_layer = torch.norm(corr_matrix, p=2)
 
-            # Scale by the number of nodes
+            # scale by the number of nodes
             num_nodes = activation_flat.size(1)
             corr_penalty += corr_penalty_for_layer / num_nodes
 
-        # Scale by the number of layers
+        # scale by the number of layers
         num_layers = len(self.activations)
         if num_layers > 0:
             corr_penalty /= num_layers
-
+            
+        # final calc incorporates the scalar alpha
         total_loss = base_loss + self.alpha * corr_penalty
         return total_loss
