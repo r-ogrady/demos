@@ -76,11 +76,11 @@ class CorrelationPenaltyLoss(nn.Module):
 
             # normalise activations and orthogonal labels
             activation_norm = (activation_flat - activation_flat.mean(dim=0)) / (activation_flat.std(dim=0) + self.epsilon)
-            orthogonal_labels_norm = (orthogonal_labels - orthogonal_labels.mean(dim=0)) / (orthogonal_labels.std(dim=0) + self.epsilon)
+            orthogonal_labels_norm = (orthogonal_labels - orthogonal_labels.mean(dim = 0)) / (orthogonal_labels.std(dim = 0) + self.epsilon)
 
             # calculate correlation
             corr_matrix = torch.mm(activation_norm.T, orthogonal_labels_norm) / (batch_size - 1)
-            corr_penalty_for_layer = torch.norm(corr_matrix, p=2)
+            corr_penalty_for_layer = torch.norm(corr_matrix, p = 2)
 
             # scale by the number of nodes
             num_nodes = activation_flat.size(1)
