@@ -16,5 +16,5 @@ We look at the spread of mpox in 2022, both globally and locally (England)
 We look at real and fake news, conduct exploratory analysis on the articles and then train and improve a classifier
 
 ## pizza_kg
-A few exercises with knowledge graphs, including defining rules for automatatic addition to kgs, SPARQL queries and measuring allignments between ontologies
+A few exercises with knowledge graphs, including defining rules for automatic addition to kgs, SPARQL queries and measuring alignments between ontologies
 
