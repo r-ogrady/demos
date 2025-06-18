@@ -6,7 +6,7 @@ Two notebooks showcasing automatic speech recognition (ASR) tasks.
 ## correlation_penalty_loss
 Work on a novel loss function that penalises neural networks for learning 'orthogonal information'
 
-## hivaids_unspuervised_vis
+## hivaids_unsupervised_vis
 Notebook showcasing pandas, visualisations, k-means, PCA. Applied in the domain of world health data
 
 ## mpox_geo_vis
