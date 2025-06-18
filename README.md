@@ -12,6 +12,9 @@ Notebook showcasing pandas, visualisations, k-means, PCA. Applied in the domain 
 ## mpox_geo_vis
 We look at the spread of mpox in 2022, both globally and locally (England)
 
+## nlp_fake_news
+We look at real and fake news, conduct exploratory analysis on the articles and then train and improve a classifier
+
 ## pizza_kg
 A few exercises with knowledge graphs, including defining rules for automatatic addition to kgs, SPARQL queries and measuring allignments between ontologies
 
